@@ -51,20 +51,25 @@ How to Sign and Verify
          (bytes32 r, bytes32 s, uint8 v) = splitSignature(claimSig);
         return ecrecover(ethSigHash,v,r,s);
     }
-    
-    
-  function splitSignature(bytes memory claimSig)
-        public pure returns (bytes32 r, bytes32 s, uint8 v)
-    {
-        require(claimSig.length == 65, "invalid signature length");
-
-        assembly {
-             r := mload(add(claimSig, 32))
-             s := mload(add(claimSig, 64))
-             v := byte(0,mload(add(claimSig, 96)))
-           
+    function splitSignature(bytes memory _claimedSignature)
+    public pure 
+    returns
+    (bytes32 r,
+    bytes32 s,
+    uint8 v){
+        require(_claimedSignature.length==65,"Invalid Signature");
+        assembly{
+            r := mload(add(_claimedSignature,32))
+            s := mload(add(_claimedSignature,64))
+            v := byte(0,mload(add(_claimedSignature,96)))
         }
+            
+        
+        
     }
+    
+    
+
     
    
    
