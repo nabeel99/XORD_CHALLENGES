@@ -118,12 +118,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
                  
                  
              }
-             function onERC721Received(address _operator,address _from,uint _tokenId,bytes memory data) 
-             public pure
-             returns (bytes4 retval)
-             {
-                       retval = bytes4(keccak256("onERC721Received(address,address,uint256,bytes)"));
-             }
+            
              function supportsInterface(bytes4 interfaceID) 
              public pure  override
              returns (bool)
