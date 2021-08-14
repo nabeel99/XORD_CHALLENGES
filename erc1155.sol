@@ -18,6 +18,12 @@ contract task4 is IERC1155{
     private _balance;
     mapping (address => mapping(address => bool))
     private authorizedAll;
+     address private cOwner;
+    
+    constructor() {
+        cOwner = msg.sender;
+        
+    }
     
     
     
@@ -122,5 +128,18 @@ contract task4 is IERC1155{
      public pure override 
     returns (bool) {
         return (interfaceID==0x01ffc9a7);
+    }
+    function _mint(address account, uint id,uint amount, bytes memory data) public 
+    {
+       require(msg.sender==cOwner,"You are not the Owner");
+        require(account != address(0));
+        _balance[id][account] += amount;
+        if (isContract(account) ) {
+            IERC1155Receiver receiver = IERC1155Receiver(account);
+            receiver.onERC1155Received(msg.sender,address(0),id,amount,data);
+            
+        }
+        emit TransferSingle(msg.sender,address(0),account,id,amount);
+
     }
 }
